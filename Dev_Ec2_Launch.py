@@ -7,19 +7,20 @@ iamclient = boto3.client('iam')
 
 def Temp_Ec2_Dev_Env():
     key_name = input('keypair name: ')
-    with open('AWS-MS-Infrastructure/Development/template.yml') as obj:
+    with open('Miscellaneous_AWS_Automations/Dev_Ec2_Launch.yml') as obj:
         temlate_body = obj.read()
     role = Get_RoleARN()
+    key_pairname = input('enter name of keypair for ssh access allow: ')
     if role != 0:
         try:
             response = cfclient.create_stack(
-                StackName = 'Dev_Environment',
+                StackName = 'Dev_Environment_Stack',
                 TemplateBody = temlate_body,
                 Capabilities = 'CAPABILITY_NAMED_IAM',
                 Parameters = [
                     {
                         'ParameterKey': 'accesscreds',
-                        'ParameterValue': 'string',
+                        'ParameterValue': key_pairname,
                     } 
                 ],
                 RoleARN = role
@@ -36,7 +37,7 @@ def Temp_Ec2_Dev_Env():
 def Get_RoleARN():
     try:
         response = iamclient.get_role(
-            RoleName = 'MainMSStackServiceRole'
+            RoleName = 'MySampleStacksRole'
         )
         if 'Arn' in response['Role']:
             data = response['Role']['Arn'].strip()
