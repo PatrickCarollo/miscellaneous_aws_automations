@@ -1,5 +1,4 @@
 import boto3
-import json
 from botocore.exceptions import ClientError
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -26,6 +25,10 @@ def Create_Ms_Stack():
                 }
             ]
         )
+        if 'StackId' in response:
+            print('create_stack successful')
+        else:
+            print('create_stack failed')
     except ClientError as e:
         print("Client error: %s" % e)
         
@@ -38,10 +41,10 @@ def Get_RoleARN():
         )
         if 'Arn' in response['Role']:
             data = response['Role']['Arn'].strip()
-            print(data)
+            print('fetched role arn: ' + data)
         else:
             data = 0
-            print('Error getting role for stack creation')
+            print('error getting role for stack creation')
         return data
     except ClientError as e:
         print("Client error: %s" % e)
@@ -50,6 +53,5 @@ def Get_RoleARN():
 
 def main():        
     Create_Ms_Stack()
-        
 if __name__ == '__main__':
     main()
