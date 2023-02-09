@@ -6,7 +6,6 @@ iamclient = boto3.client('iam')
 
 
 def Temp_Ec2_Dev_Env():
-    key_name = input('keypair name: ')
     with open('Miscellaneous_AWS_Automations/Dev_Ec2_Launch.yml') as obj:
         temlate_body = obj.read()
     role = Get_RoleARN()
@@ -16,7 +15,7 @@ def Temp_Ec2_Dev_Env():
             response = cfclient.create_stack(
                 StackName = 'Dev_Environment_Stack',
                 TemplateBody = temlate_body,
-                Capabilities = 'CAPABILITY_NAMED_IAM',
+                Capabilities = ['CAPABILITY_NAMED_IAM'],
                 Parameters = [
                     {
                         'ParameterKey': 'accesscreds',
