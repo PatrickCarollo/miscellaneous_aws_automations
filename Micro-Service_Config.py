@@ -9,15 +9,16 @@ iamclient = boto3.client('iam')
 
 def Create_Ms_Stack():
     with open('Miscellaneous_AWS_Automations/Micro-Service_Config.yml') as body:
-        template_body = body
+        template_body = body.read()
     stack_name = input('Create name for ms stack: ')
     projectid = 'MySampleStack'
+    stack_role = Get_RoleARN()
     try:
         response = cfclient.create_stack(
             StackName = stack_name,
             Capabilities = ['CAPABILITY_NAMED_IAM'],
             TemplateBody = template_body,
-            RoleARN = Get_RoleARN,
+            RoleARN = stack_role,
             Parameters = [
                 {
                     'ParameterKey': 'projectid',
