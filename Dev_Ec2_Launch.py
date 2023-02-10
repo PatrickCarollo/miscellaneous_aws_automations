@@ -13,7 +13,7 @@ def Temp_Ec2_Dev_Env():
     if role != 0:
         try:
             response = cfclient.create_stack(
-                StackName = 'Dev_Environment_Stack',
+                StackName = 'Dev-Environment-Stack',
                 TemplateBody = temlate_body,
                 Capabilities = ['CAPABILITY_NAMED_IAM'],
                 Parameters = [

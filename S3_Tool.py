@@ -27,9 +27,9 @@ def S3_Uploader(bucket_name):
     if usercomm == 'n':
         indexed = pathdata.rfind('/')
         if indexed != -1:
-            keydata = pathdata
+            keydata = pathdata[indexed+1:]
         else: 
-            keydata = pathdata[indexed:]
+            keydata = pathdata
     elif usercomm == 'y':
         keydata = input('Desired file name: ')
     with open(pathdata) as obj:
@@ -110,7 +110,7 @@ def main():
         print('No buckets found in account')
     else:
         command0 = input('upload/delete: ')
-        if command0 ==' upload':
+        if command0 =='upload':
             S3_Uploader(z)
         elif command0 == 'delete':
             x = S3_List_Object(z)

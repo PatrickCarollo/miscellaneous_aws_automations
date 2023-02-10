@@ -10,7 +10,7 @@ Resources:
         Properties:
             InstanceType: t2.micro
             IamInstanceProfile: !Ref Developmentenvprofile
-            ImageId: ami-0c55b159cbfafe1f0
+            ImageId: ami-0aa7d40eeae50c9a9
             KeyName: !Ref accesscreds
             SecurityGroups:
                 - !Ref EC2InstanceSecurityGroup

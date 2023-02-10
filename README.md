@@ -13,4 +13,4 @@ S3_Tool.py:
     Conditionally uploads/deletes S3 objects and buckets based on inputs.
 
 Micro-Service_Config.py:
-    Deploys basic configuration for a microservice consisting of nosql database, API shell, lambda proxy integration.
+    Deploys basic configuration for a microservice consisting of NOSQL database, API shell, Lambda proxy integration.
