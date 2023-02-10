@@ -96,6 +96,9 @@ Resources:
     Restapi:
         Type: AWS::ApiGateway::RestApi
         Properties:
+            EndpointConfiguration:
+                Types:
+                    - REGIONAL
             Name: !Join
                 - ''
                 -   - 'MSApi'
@@ -103,9 +106,6 @@ Resources:
     Apiresource:
         Type: AWS::ApiGateway::Resource
         Properties:
-            EndpointConfiguration:
-                Types:
-                    - REGIONAL
             RestApiId: !Ref Restapi
             ParentId: !GetAtt Restapi.RootResourceId
             PathPart: 'resource'
