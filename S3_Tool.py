@@ -2,6 +2,8 @@
 import boto3
 import json
 from botocore.exceptions import ClientError 
+import io
+from zipfile import ZipFile, ZIP_DEFLATED
 s3client = boto3.client('s3')
 
 
@@ -19,7 +21,6 @@ def List_Buckets():
         print("Client error: %s" % e)
 
 
-
 #List bucket options for file to be uplaoded and proceed to upload
 def S3_Uploader(bucket_name):
     pathdata = input('Enter local file path: ')
@@ -27,14 +28,30 @@ def S3_Uploader(bucket_name):
     if usercomm == 'n':
         indexed = pathdata.rfind('/')
         if indexed != -1:
-            keydata = pathdata[indexed+1:]
+            key = pathdata[indexed+1:]
         else: 
-            keydata = pathdata
+            key = pathdata
     elif usercomm == 'y':
-        keydata = input('Desired file name: ')
-    with open(pathdata) as obj:
-        object0 = obj.read()
-
+        key = input('Desired file name: ')
+    else:
+        print('invalid comm')
+    if '.py' or '.js' in key:
+        inputs = input('zip this code object?: y/n  ')
+        if inputs == 'y':
+            object0 = io.BytesIO()
+            with ZipFile(object0,'w',ZIP_DEFLATED) as obj:
+                obj.write(pathdata, arcname = key)
+            object0.seek(0)
+            integ = key.find('.py')
+            keydata = key[:integ] + '.zip'
+        else:
+            with open(pathdata) as obj:
+                object0 = obj.read()
+                keydata = key
+    else:
+        with open(pathdata) as obj:
+            object0 = obj.read()
+            keydata = key
     try:
         response = s3client.put_object(
             Bucket = bucket_name ,
@@ -69,42 +86,48 @@ def S3_List_Object(bucket_name):
 
 
 def S3_Objects_Delete(bucket_name, object_keys):    
-    object_array = []
-    for x in object_keys:
-        dict_obj = {}
-        dict_obj['Key'] = x
-        object_array.append(dict_obj)
-    
-    try:
-        response = s3client.delete_objects(
-            Bucket = bucket_name,
-            Delete = {'Objects': object_array}
-        )
-        if 'Deleted' in response:
-            print('objects deleted')
-            data = 200
-            
-        else:
-            data = 0
-            print('objects failed to delete')
-        return data
-    except ClientError as e:
-        print("Client error: %s" % e)
+    if input('This empties all objects in bucket: continue? y/n: ') == 'y':
+        object_array = []
+        for x in object_keys:
+            dict_obj = {}
+            dict_obj['Key'] = x
+            object_array.append(dict_obj)
+        
+        try:
+            response = s3client.delete_objects(
+                Bucket = bucket_name,
+                Delete = {'Objects': object_array}
+            )
+            if 'Deleted' in response:
+                print('objects deleted')
+                data = 200
+                
+            else:
+                data = 0
+                print('objects failed to delete')
+            return data
+        except ClientError as e:
+            print("Client error: %s" % e)
+    else:
+        print('stopped')
 
 
 def S3_Bucket_Delete(bucket_name, empty_status):
-    try:
-        response = s3client.delete_bucket(
-            Bucket = bucket_name,
-    
-        )
-        print(response)
-    except ClientError as e:
-        print("Client error: %s" % e)
-    
+    if input('proceed to delete bucket? y/n: ') == 'y':
+        try:
+            response = s3client.delete_bucket(
+                Bucket = bucket_name,
+        
+            )
+            print(response)
+        except ClientError as e:
+            print("Client error: %s" % e)
+    else:
+        print('stopped')
+
+
 
 def main():
-    
     z = List_Buckets()
     if z == 0:
         print('No buckets found in account')
