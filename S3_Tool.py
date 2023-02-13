@@ -74,7 +74,7 @@ def S3_List_Object(bucket_name):
         )
         object_keys = []
         if 'Contents' in response:
-            print('objects found for deletion:')
+            print('objects found: ')
             for x in response['Contents']:
                 object_keys.append(x['Key'])
                 print(x['Key'])
@@ -86,7 +86,7 @@ def S3_List_Object(bucket_name):
 
 
 def S3_Objects_Delete(bucket_name, object_keys):    
-    if input('This empties all objects in bucket: continue? y/n: ') == 'y':
+    if input('empty bucket: continue? y/n: ') == 'y':
         object_array = []
         for x in object_keys:
             dict_obj = {}
