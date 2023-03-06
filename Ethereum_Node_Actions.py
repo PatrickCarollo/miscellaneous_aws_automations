@@ -1,3 +1,4 @@
+#For creating and deleting nodes Etherium test nodes for temporary test infrastructure on AWS MB service
 import boto3
 import json
 import time

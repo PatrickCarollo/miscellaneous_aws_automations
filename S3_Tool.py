@@ -1,4 +1,4 @@
-#Uploads input-chosen file to an s3 bucket as an object.
+#Uploads/deletes input-selected local file to an s3 bucket as an object.
 import boto3
 import json
 from botocore.exceptions import ClientError 
