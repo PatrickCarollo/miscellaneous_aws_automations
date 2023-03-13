@@ -36,7 +36,7 @@ def Temp_Ec2_Dev_Env():
 def Get_RoleARN():
     try:
         response = iamclient.get_role(
-            RoleName = 'MySampleStacksRole'
+            RoleName = 'MySampleStackServiceRole'
         )
         if 'Arn' in response['Role']:
             data = response['Role']['Arn'].strip()

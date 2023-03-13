@@ -6,7 +6,7 @@ CLI COMMANDS FOR INITIAL CLOUDFORMATION STACKS' IAM Roles
 Create roles:
 
 1.
-aws iam create-role --role-name MainMSStackServiceRole --assume-role-policy-document '{
+aws iam create-role --role-name MySampleStackServiceRole --assume-role-policy-document '{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -22,30 +22,15 @@ aws iam create-role --role-name MainMSStackServiceRole --assume-role-policy-docu
 
 
 2.
-aws iam put-role-policy --role-name MainMSStackServiceRole --policy-name stackeventec2provspolicy --policy-document '{
+aws iam put-role-policy --role-name MySampleStackServiceRole --policy-name stackeventec2provspolicy --policy-document '{
     "Version": "2012-10-17",
     "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:*",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "lambda:*",
-            "Resource": "*"
-        },
         {
             "Effect": "Allow",
             "Action": "iam:*",
             "Resource": "*"
         },
-        {
+{
             "Effect": "Allow",
             "Action": "ec2:*",
             "Resource": "*"
@@ -54,5 +39,6 @@ aws iam put-role-policy --role-name MainMSStackServiceRole --policy-name stackev
             "Effect": "Allow",
             "Action": "ebs:*",
             "Resource": "*"
-        }
+        } 
     ]
+}
