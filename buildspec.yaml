@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - echo logging in to Amazon ECR for new $Branch image upload...
-      - aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin $Ecr
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $Ecr
       - export uniquetag=$(date +%Y%m%d%H%M%S)
   build:
     commands:
