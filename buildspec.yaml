@@ -8,7 +8,7 @@ phases:
       - export uniquetag=$(date +%Y%m%d%H%M%S)
   build:
     commands:
-      - sudo service docker start .
+      - docker start .
       - echo Building the Docker image on for $Branch...
       - docker build -t $Branch .
       - echo Pushing the Docker image to Amazon ECR...
