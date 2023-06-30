@@ -8,14 +8,13 @@ phases:
       - export uniquetag=$(date +%Y%m%d%H%M%S)
   build:
     commands:
-      - docker start .
-      - echo Building the Docker image on for $Branch...
-      - docker build -t $Branch .
+      - echo Building the Docker image for image repo nft$Branch...
+      - docker build -t nft$Branch:$uniquetag .
       - echo Pushing the Docker image to Amazon ECR...
-      - docker tag $Branch:latest $Ecr/nfts:$Branch$uniquetag
-      - docker push $Ecr/nfts:$Branch$uniquetag
+      - docker tag nft$Branch:$uniquetag $Ecr/nft$Branch:$uniquetag
+      - docker push $Ecr/nft$Branch:$uniquetag
         
   post_build:
     commands:
       - echo Updating the Lambda function code to use the new $Branch Docker image...
-      - aws lambda update-function-code --function-name MainLambdaMS$projectid --image-uri $Ecr/nfts:$Branch$uniquetag
+      - aws lambda update-function-code --function-name MainLambdaMS$projectid --image-uri $Ecr/nft$Branch:$uniquetag
