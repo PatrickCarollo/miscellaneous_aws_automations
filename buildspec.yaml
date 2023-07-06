@@ -1,4 +1,4 @@
-#Build commands for assembling main application code using Codebuild managed Linux container
+#Build commands for building docker image from source repo Dockerfile..
 version: 0.2
 phases:
   pre_build:
