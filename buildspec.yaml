@@ -1,4 +1,4 @@
-#Build commands for building docker image from source repo Dockerfile..
+#Build commands for building docker image from source repo Dockerfile...
 version: 0.2
 phases:
   pre_build:
