@@ -2,19 +2,22 @@
 version: 0.2
 phases:
   pre_build:
+    #phase for logging into docker through aws using repo uri. and creating image id
     commands:
       - echo logging in to Amazon ECR for new $Branch image upload...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $Ecr
       - export uniquetag=$(date +%Y%m%d%H%M%S)
   build:
+    #phase for building and pushing image to ECR
     commands:
       - echo Building the Docker image for image repo nft$Branch...
-      - docker build -t nft$Branch:$uniquetag .
+      - docker build -t DT$Branch:$uniquetag .
       - echo Pushing the Docker image to Amazon ECR...
-      - docker tag nft$Branch:$uniquetag $Ecr/nft$Branch:$uniquetag
-      - docker push $Ecr/nft$Branch:$uniquetag
+      - docker tag DT$Branch:$uniquetag $Ecr/DT$Branch:$uniquetag
+      - docker push $Ecr/DT$Branch:$uniquetag
         
   post_build:
+    #update lambda microservice 
     commands:
       - echo Updating the Lambda function code to use the new $Branch Docker image...
-      - aws lambda update-function-code --function-name MainLambdaMS$projectid --image-uri $Ecr/nft$Branch:$uniquetag
+      - aws lambda update-function-code --function-name MainLambdaMS$Branch$projectid --image-uri $Ecr/DT$Branch:$uniquetag
