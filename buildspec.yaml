@@ -10,14 +10,14 @@ phases:
   build:
     #phase for building and pushing image to ECR
     commands:
-      - echo Building the Docker image for image repo nft$Branch...
-      - docker build -t DT$Branch:$uniquetag .
+      - echo Building the Docker image for image repo $EcrRepoName...
+      - docker build -t $EcrRepoName:$uniquetag .
       - echo Pushing the Docker image to Amazon ECR...
-      - docker tag DT$Branch:$uniquetag $Ecr/DT$Branch:$uniquetag
-      - docker push $Ecr/DT$Branch:$uniquetag
+      - docker tag $EcrRepoName:$uniquetag $Ecr/$EcrRepoName:$uniquetag
+      - docker push $Ecr/$EcrRepoName:$uniquetag
         
   post_build:
     #update lambda microservice 
     commands:
       - echo Updating the Lambda function code to use the new $Branch Docker image...
-      - aws lambda update-function-code --function-name MainLambdaMS$Branch$projectid --image-uri $Ecr/DT$Branch:$uniquetag
+      - aws lambda update-function-code --function-name MainLambdaMS$Branch$projectid --image-uri $Ecr/$EcrRepoName:$uniquetag
