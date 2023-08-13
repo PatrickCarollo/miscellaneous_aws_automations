@@ -1,4 +1,5 @@
 #Build commands for building docker image from source repo Dockerfile....
+#TODO figure out if the correct image is being sources to the respective lambda alias version
 version: 0.2
 phases:
   pre_build:
