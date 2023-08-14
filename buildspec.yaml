@@ -21,4 +21,4 @@ phases:
     #update lambda microservice 
     commands:
       - echo Updating the Lambda function code to use the new $Branch Docker image...
-      - aws lambda update-function-code --function-name MainLambdaMS$Branch$projectid --image-uri $Ecr/$EcrRepoName:$uniquetag
+      - aws lambda update-function-code --function-name MainLambdaMS$Branch$projectid --image-uri $Ecr/$EcrRepoName:$uniquetag --publish
