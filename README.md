@@ -11,5 +11,5 @@ Ethereum_Node_Action.py:
     Conditionally creates/deletes Eth node and stores id for use of smart contract testing.
     
 S3_Tool.py:
-    Conditionally uploads/deletes S3 objects and buckets based on inputs.
+    Conditionally uploads/deletes S3 objects and buckets based on inputs..
 
