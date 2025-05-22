@@ -79,7 +79,7 @@ def S3_List_Object(bucket_name):
                 object_keys.append(x['Key'])
                 print(x['Key'])
         else:
-            print('no objects found for deletion')
+            print('no objects found..')
         return object_keys
     except ClientError as e:
         print("Client error: %s" % e)
@@ -125,20 +125,33 @@ def S3_Bucket_Delete(bucket_name, empty_status):
     else:
         print('stopped')
 
-
-
+def Get_Object(bucket_name, object_keys):
+    key = input('enter key of object to download: ')
+    try:
+        response = s3client.get_object(
+            Bucket = bucket_name,
+            Key = key
+        )
+        object = json.loads(response['Body'].read().decode('utf-8'))
+        with open(key, 'w') as f:
+            json.dump(object, f)
+    except ClientError as e:
+            print("Client error: %s" % e)   
 def main():
     z = List_Buckets()
     if z == 0:
         print('No buckets found in account')
     else:
-        command0 = input('upload/delete: ')
+        command0 = input('upload/delete/download: ')
+        x = S3_List_Object(z)
         if command0 =='upload':
             S3_Uploader(z)
-        elif command0 == 'delete':
-            x = S3_List_Object(z)
+        elif command0 == 'delete': 
             y = S3_Objects_Delete(z, x)
             S3_Bucket_Delete(z, y)
+        elif command0 == 'download':
+            Get_Object(z,x)
+
 
 if __name__ =='__main__':
     main()

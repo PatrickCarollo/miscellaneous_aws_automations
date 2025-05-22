@@ -18,7 +18,7 @@ Resources:
                 Fn::Base64: |
                     #!/bin/bash
                     sudo yum install -y python3-pip
-                    pip3 install boto3'
+                    pip3 install boto3
             BlockDeviceMappings:
                 -   DeviceName: "/dev/xvda"
                     Ebs:
